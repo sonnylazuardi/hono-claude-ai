@@ -1,12 +1,11 @@
-import { Hono } from 'hono'
+import { Context, Hono } from 'hono'
 import { createAnthropic } from '@ai-sdk/anthropic';
 import { streamText } from 'hono/streaming'
 import { env } from 'hono/adapter'
-
 import { streamText as aiStreamText } from 'ai';
 const app = new Hono()
 
-const getModel = (c: any) => {
+const getModel = (c: Context) => {
   const { API_KEY } = env<{ API_KEY: string }>(c)
   const anthropic = createAnthropic({
     apiKey: API_KEY,
@@ -15,19 +14,7 @@ const getModel = (c: any) => {
 }
 
 app.get('/', async (c) => {
-  const { textStream } = await aiStreamText({
-    model: getModel(c),
-    prompt: 'who are you?',
-  });
-  return streamText(c, async (stream) => {
-    for await (const textPart of textStream) {
-      await stream.write(textPart);
-    }
-  })
-})
-
-app.get('/prompt', async (c) => {
-  const prompt = c.req.query('p');
+  const prompt = c.req.query('p') || `who are you?`;
   const { textStream } = await aiStreamText({
     model: getModel(c),
     prompt,
@@ -39,4 +26,4 @@ app.get('/prompt', async (c) => {
   })
 })
 
-export default app
+export default app;
