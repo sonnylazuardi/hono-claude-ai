@@ -1,7 +1,8 @@
 {
   "name": "hono",
   "scripts": {
-    "dev": "bun run --hot src/index.ts"
+    "dev": "bun run --hot src/index.ts",
+    "dev:socket": "bun run --hot src/websocket.tsx"
   },
   "dependencies": {
     "@ai-sdk/anthropic": "^0.0.48",
