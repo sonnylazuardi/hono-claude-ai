@@ -64,7 +64,7 @@ const ws = app.get(
       },
       onMessage(ws) {
         // Broadcast the message to all connected clients
-        for (const client of connectedClients) {
+        for (const client of connectedClients as any) {
           (client as any).send(ws.data)
         }
       },
