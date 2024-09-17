@@ -19,7 +19,7 @@ app.get('/', (c) => {
         <script
           dangerouslySetInnerHTML={{
             __html: `
-        const ws = new WebSocket('ws://vps.sonnylab.com:3000/ws')
+        const ws = new WebSocket('ws://vps.sonnylab.com/ws')
         const $chatMessages = document.getElementById('chat-messages')
         const $messageInput = document.getElementById('message-input')
         const $sendButton = document.getElementById('send-button')
@@ -78,4 +78,5 @@ const ws = app.get(
 Bun.serve({
   fetch: app.fetch,
   websocket,
+  port: 80
 })
